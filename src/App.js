@@ -1,95 +1,127 @@
-import React, { useState, useEffect } from 'react';
-import { CssBaseline } from '@material-ui/core';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {CssBaseline} from '@material-ui/core';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import { Navbar, Products, Cart, Checkout } from './components';
-import { commerce } from './lib/commerce';
+import {Navbar, Products, Cart, Filters} from './components';
+import {commerce} from './lib/commerce';
+import {Filter} from "@material-ui/icons";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import {ThemeProvider} from "@material-ui/styles";
 
 const App = () => {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState({});
-  const [order, setOrder] = useState({});
-  const [errorMessage, setErrorMessage] = useState('');
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [products, setProducts] = useState([]);
+    const [cart, setCart] = useState({});
+    const [order, setOrder] = useState({});
+    const [errorMessage, setErrorMessage] = useState('');
 
-  const fetchProducts = async () => {
-    const { data } = await commerce.products.list();
 
-    setProducts(data);
-  };
+    const fetchProducts = async () => {
+        const {data} = await commerce.products.list();
 
-  const fetchCart = async () => {
-    setCart(await commerce.cart.retrieve());
-  };
+        setProducts(data);
+    };
 
-  const handleAddToCart = async (productId, quantity) => {
-    const item = await commerce.cart.add(productId, quantity);
+    const fetchCart = async () => {
+        setCart(await commerce.cart.retrieve());
+    };
 
-    setCart(item.cart);
-  };
+    const filterProducts = async () => {
+        const {data} = await commerce.products.list({
+            category_slug: ['s'],
+        }).then(response => response.data);
+        setProducts(data);
+    };
 
-  const handleUpdateCartQty = async (lineItemId, quantity) => {
-    const response = await commerce.cart.update(lineItemId, { quantity });
+    const handleAddToCart = async (productId, quantity) => {
+        const item = await commerce.cart.add(productId, quantity);
 
-    setCart(response.cart);
-  };
+        setCart(item.cart);
+    };
 
-  const handleRemoveFromCart = async (lineItemId) => {
-    const response = await commerce.cart.remove(lineItemId);
+    const handleUpdateCartQty = async (lineItemId, quantity) => {
+        const response = await commerce.cart.update(lineItemId, {quantity});
 
-    setCart(response.cart);
-  };
+        setCart(response.cart);
+    };
 
-  const handleEmptyCart = async () => {
-    const response = await commerce.cart.empty();
+    const handleRemoveFromCart = async (lineItemId) => {
+        const response = await commerce.cart.remove(lineItemId);
 
-    setCart(response.cart);
-  };
+        setCart(response.cart);
+    };
 
-  const refreshCart = async () => {
-    const newCart = await commerce.cart.refresh();
+    const handleEmptyCart = async () => {
+        const response = await commerce.cart.empty();
 
-    setCart(newCart);
-  };
+        setCart(response.cart);
+    };
 
-  const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
-    try {
-      const incomingOrder = await commerce.checkout.capture(checkoutTokenId, newOrder);
+    const refreshCart = async () => {
+        const newCart = await commerce.cart.refresh();
 
-      setOrder(incomingOrder);
+        setCart(newCart);
+    };
 
-      refreshCart();
-    } catch (error) {
-      setErrorMessage(error.data.error.message);
-    }
-  };
+    const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
+        try {
+            const incomingOrder = await commerce.checkout.capture(checkoutTokenId, newOrder);
 
-  useEffect(() => {
-    fetchProducts();
-    fetchCart();
-  }, []);
+            setOrder(incomingOrder);
 
-  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+            refreshCart();
+        } catch (error) {
+            setErrorMessage(error.data.error.message);
+        }
+    };
 
-  return (
-    <Router>
-      <div style={{ display: 'flex' }}>
-        <CssBaseline />
-        <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle} />
-        <Switch>
-          <Route exact path="/">
-            <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />
-          </Route>
-          <Route exact path="/cart">
-            <Cart cart={cart} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart} onEmptyCart={handleEmptyCart} />
-          </Route>
-          <Route path="/checkout" exact>
-            <Checkout cart={cart} order={order} onCaptureCheckout={handleCaptureCheckout} error={errorMessage} />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
+    useEffect(() => {
+        fetchProducts();
+        fetchCart();
+    }, []);
+
+    const theme = createMuiTheme({
+        typography: {
+            h5: {
+                fontWeight: 500,
+            },
+            fontFamily: [
+                '-apple-system',
+                'BlinkMacSystemFont',
+                '"Segoe UI"',
+                'Roboto',
+                '"Helvetica Neue"',
+                'Arial',
+                'sans-serif',
+                '"Apple Color Emoji"',
+                '"Segoe UI Emoji"',
+                '"Segoe UI Symbol"',
+            ].join(','),
+        },
+    });
+
+    const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
+    return (
+        <Router>
+            <div style={{display: 'flex'}}>
+                <ThemeProvider theme={theme}>
+                <CssBaseline/>
+                <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle}/>
+                <Switch>
+                    <Route exact path="/">
+                        <Filters filterProducts={filterProducts}/>
+                        <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty/>
+                    </Route>
+                    <Route exact path="/cart">
+                        <Cart cart={cart} onUpdateCartQty={handleUpdateCartQty} onRemoveFromCart={handleRemoveFromCart}
+                              onEmptyCart={handleEmptyCart}/>
+                    </Route>
+                </Switch>
+                </ThemeProvider>
+            </div>
+        </Router>
+    );
 };
 
 export default App;
