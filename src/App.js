@@ -17,8 +17,9 @@ const App = () => {
 
 
     const fetchProducts = async () => {
-        const {data} = await commerce.products.list();
-
+        const {data} = await commerce.products.list({
+            limit:70,
+        });
         setProducts(data);
     };
 
@@ -26,10 +27,17 @@ const App = () => {
         setCart(await commerce.cart.retrieve());
     };
 
-    const filterProducts = async () => {
+    const filterProducts = async (keys) => {
+        const keyArr = Object.keys(keys).reduce((acc, key) => {
+            if (keys[key]) {
+                acc.push(key);
+            }
+            return acc;
+        },[]);
         const {data} = await commerce.products.list({
-            category_slug: ['s'],
-        }).then(response => response.data);
+            category_slug: keyArr,
+            limit:70,
+        });
         setProducts(data);
     };
 

@@ -5,16 +5,16 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import {commerce} from "../../lib/commerce";
-import Button from "@material-ui/core/Button";
+
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Checkbox from '@material-ui/core/Checkbox';
+import RadioGroup from "@material-ui/core/RadioGroup";
+import Radio from "@material-ui/core/Radio";
+
 
 const Filters = ({filterProducts}) => {
     const drawerWidth = 190;
@@ -34,6 +34,8 @@ const Filters = ({filterProducts}) => {
             top:'8%',
         },
         drawerContainer: {
+            marginTop: 30,
+            padding: 20,
             overflow: 'hidden',
         },
         content: {
@@ -41,11 +43,26 @@ const Filters = ({filterProducts}) => {
             padding: theme.spacing(3),
         },
     }));
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-    const [products, setProducts] = useState([]);
-    const location = useLocation();
+    const [value, setValue] = React.useState('female');
+    const [keys] = useState({
+            men : false,
+            women: false,
+            kids: false,
+            s: false,
+            m: false,
+            l: false,
+            xl: false,
+            sustainable: false
+    });
     const classes = useStyles();
-    const handleFilterProducts = () => filterProducts();
+
+    const handleChange = (event) => {
+        setValue(event.target.value);
+    };
+    const handleFilterProducts = (e) => {
+        keys[e.currentTarget.name] = e.currentTarget.checked;
+        filterProducts(keys);
+    };
 
     return (
         <>
@@ -56,10 +73,76 @@ const Filters = ({filterProducts}) => {
                     paper: classes.drawerPaper,
                 }}
             >
-                <Toolbar />
                 <div className={classes.drawerContainer}>
-                    <div className="row">
-                        <Button onClick={handleFilterProducts}>Test</Button>
+                    <FormControl component="fieldset" className={classes.formControl}>
+                        <FormLabel component="legend">Gender</FormLabel>
+                        <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+                            <FormControlLabel value="female" control={<Radio />} label="Female" />
+                            <FormControlLabel value="male" control={<Radio />} label="Male" />
+                            <FormControlLabel value="other" control={<Radio />} label="Other" />
+                            <FormControlLabel value="disabled" disabled control={<Radio />} label="(Disabled option)" />
+                        </RadioGroup>
+                        <FormLabel component="legend">SORT</FormLabel>
+                        <FormGroup>
+                            <FormControlLabel
+                                control={<Checkbox onChange={handleFilterProducts} name="women" />}
+                                label="Women"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox onChange={handleFilterProducts} name="men" />}
+                                label="Men"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox onChange={handleFilterProducts} name="kids" />}
+                                label="Kids"
+                            />
+                        </FormGroup>
+                    </FormControl>
+                </div>
+            </Drawer>
+        </>
+    );
+};
+
+export default Filters;
+
+
+/*
+           <FormControl component="fieldset" className={classes.formControl}>
+                        <FormLabel component="legend">SIZES</FormLabel>
+                        <FormGroup>
+                            <FormControlLabel
+                                control={<Checkbox checked={false} onChange={handleFilterProducts()} name="s" />}
+                                label="S"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox checked={false} onChange={handleFilterProducts()} name="m" />}
+                                label="M"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox checked={false} onChange={handleFilterProducts()} name="l" />}
+                                label="L"
+                            />
+                        </FormGroup>
+                    </FormControl>
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const handleMobileMenuClose = () => setMobileMoreAnchorEl(null);
+
+    const mobileMenuId = 'primary-search-account-menu-mobile';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.modal');
+    });
+
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    <div className="row">
+                        <Button onClick={handleFilterProducts('s')}>Test</Button>
                         <div className="col-2 d-none d-lg-block position-relative"><p
                             className="font-size-title font-weight-medium mb-3">Type</p>
                             <div className="mb-5">
@@ -78,28 +161,9 @@ const Filters = ({filterProducts}) => {
                             </div>
                         </div>
                     </div>
-                </div>
-            </Drawer>
-        </>
-    );
-};
-
-export default Filters;
 
 
-/*    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    const handleMobileMenuClose = () => setMobileMoreAnchorEl(null);
-
-    const mobileMenuId = 'primary-search-account-menu-mobile';
-
-    document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('.modal');
-    });
+    */
 
 
-    const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };*/

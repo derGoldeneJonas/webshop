@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppBar, Toolbar, IconButton, Badge, MenuItem, Menu, Typography, Modal} from '@material-ui/core';
 import {ShoppingCart} from '@material-ui/icons';
 import {Link, useLocation} from 'react-router-dom';
@@ -6,6 +6,7 @@ import logo from '../../assets/Ernstings_family.png';
 import useStyles from './styles';
 import FormDialog from "../Modal/FormDialog";
 import {Form} from "semantic-ui-react";
+
 
 const PrimarySearchAppBar = ({totalItems}) => {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -18,12 +19,11 @@ const PrimarySearchAppBar = ({totalItems}) => {
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('.modal');
-    });
-
-
     const [open, setOpen] = React.useState(false);
+
+    /*useEffect(() => {
+        handleClickOpen();
+    }, [])*/
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -46,6 +46,7 @@ const PrimarySearchAppBar = ({totalItems}) => {
 
     return (
         <>
+            <FormDialog open={open} setOpen={setOpen}/>
             <AppBar position="fixed" className={classes.appBar} color="inherit">
                 <Toolbar>
                     <Typography component={Link} to="/" variant="h6" className={classes.title} color="inherit">
@@ -64,9 +65,12 @@ const PrimarySearchAppBar = ({totalItems}) => {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            {handleClickOpen}
         </>
     );
 };
+/*document.addEventListener('DOMContentLoaded', function () {
+    PrimarySearchAppBar.handleClickOpen();
+    alert("test");
+});*/
 
 export default PrimarySearchAppBar;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardMedia, CardContent, CardActions, Typography, IconButton, Button} from '@material-ui/core';
+import {Card, CardMedia, CardContent, CardActions, Typography, IconButton, Button, Container} from '@material-ui/core';
 import {AddShoppingCart} from '@material-ui/icons';
 
 import useStyles from './styles';
@@ -11,10 +11,21 @@ const Product = ({product, onAddToCart}) => {
 
     const handleAddToCart = () => onAddToCart(product.id, 1);
 
+    const renderBanner = () => (
+        <Chip icon={<EcoIcon/>}  label="Sustainable"/>
+    );
     /* <Buton aria-label="Add to Cart" onClick={handleAddToCart}>
                     <AddShoppingCart/>
                     Add to Cart
-                </Buton>*/
+                </Buton>
+                         <Button
+                    variant="contained"
+                    className={classes.button}
+                    startIcon={<AddShoppingCart />}
+                    onClick={handleAddToCart}
+                 >
+                    Add to Cart
+                </Button>*/
     return (
         <Card className={classes.root}>
             <CardMedia className={classes.media} image={product.media.source} title={product.name}/>
@@ -31,15 +42,11 @@ const Product = ({product, onAddToCart}) => {
                             color="textSecondary" component="p"/>
             </CardContent>
             <CardActions disableSpacing className={classes.cardActions}>
-                <Chip icon={<EcoIcon />}  label="Sustainable"/>
-                <Button
-                    variant="contained"
-                    className={classes.button}
-                    startIcon={<AddShoppingCart />}
-                    onClick={handleAddToCart}
-                 >
-                    Add to Cart
-                </Button>
+                {console.log(product.categories.some(item => item.slug === 'sustainable'))}
+                {product.categories.some(item => item.slug === 'sustainable') ? renderBanner() : null}
+                <IconButton aria-label="Add to Cart" onClick={handleAddToCart}>
+                    <AddShoppingCart />
+                </IconButton>
             </CardActions>
         </Card>
     );
