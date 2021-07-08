@@ -53,7 +53,7 @@ const PrimarySearchAppBar = ({totalItems}) => {
                         <img src={logo} alt="commerce.js" height="85px" className={classes.image}/>
                     </Typography>
                     <div className={classes.grow}/>
-                    {location.pathname === '/webshop' && (
+                    {(location.pathname === '/webshop' || location.pathname === '/webshop/') && (
                         <div className={classes.button}>
                             <IconButton component={Link} to="/cart" aria-label="Show cart items" color="inherit">
                                 <Badge badgeContent={totalItems} color="secondary">
