@@ -7,7 +7,6 @@ import {commerce} from './lib/commerce';
 import {Filter} from "@material-ui/icons";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {ThemeProvider} from "@material-ui/styles";
-import Redirect from "react-router/modules/Redirect";
 
 const App = () => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -113,7 +112,6 @@ const App = () => {
 
     return (
         <Router>
-            <Redirect to="/webshop" />
             <div style={{display: 'flex'}}>
                 <ThemeProvider theme={theme}>
                 <CssBaseline/>
