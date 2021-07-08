@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/webshop/static/js/main.e011d98f.chunk.js",
-    "main.js.map": "/webshop/static/js/main.e011d98f.chunk.js.map",
+    "main.js": "/webshop/static/js/main.dc5dfe3e.chunk.js",
+    "main.js.map": "/webshop/static/js/main.dc5dfe3e.chunk.js.map",
     "runtime-main.js": "/webshop/static/js/runtime-main.7360cb70.js",
     "runtime-main.js.map": "/webshop/static/js/runtime-main.7360cb70.js.map",
     "static/js/2.2beb7579.chunk.js": "/webshop/static/js/2.2beb7579.chunk.js",
     "static/js/2.2beb7579.chunk.js.map": "/webshop/static/js/2.2beb7579.chunk.js.map",
     "index.html": "/webshop/index.html",
-    "precache-manifest.bb7dd2cb5ff02d95a5c678f508b1496e.js": "/webshop/precache-manifest.bb7dd2cb5ff02d95a5c678f508b1496e.js",
+    "precache-manifest.6794a62cb885f91b9ff4122d7d6695e6.js": "/webshop/precache-manifest.6794a62cb885f91b9ff4122d7d6695e6.js",
     "service-worker.js": "/webshop/service-worker.js",
     "static/js/2.2beb7579.chunk.js.LICENSE.txt": "/webshop/static/js/2.2beb7579.chunk.js.LICENSE.txt",
     "static/media/Ernstings_family.png": "/webshop/static/media/Ernstings_family.ca1453fe.png"
@@ -15,6 +15,6 @@
   "entrypoints": [
     "static/js/runtime-main.7360cb70.js",
     "static/js/2.2beb7579.chunk.js",
-    "static/js/main.e011d98f.chunk.js"
+    "static/js/main.dc5dfe3e.chunk.js"
   ]
 }
