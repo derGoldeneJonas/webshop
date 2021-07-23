@@ -4,15 +4,24 @@ import {AddShoppingCart} from '@material-ui/icons';
 
 import useStyles from './styles';
 import Chip from "@material-ui/core/Chip";
-import EcoIcon from '@material-ui/icons/Eco';
+//import EcoIcon from '@material-ui/icons/Eco';
+import EcoIcon from '../../../assets/icon.svg'
+import Icon from "@material-ui/core/Icon";
+import Avatar from "@material-ui/core/Avatar";
 
 const Product = ({product, onAddToCart}) => {
     const classes = useStyles();
 
     const handleAddToCart = () => onAddToCart(product.id, 1);
+    const svgIcon = (
+        <Icon>
+            <img src={EcoIcon} className={classes.iconImage}/>
+        </Icon>
+
+    );
 
     const renderBanner = () => (
-        <Chip icon={<EcoIcon/>}  label="Sustainable"/>
+        <Chip className={classes.chip} icon={svgIcon}  label="Sustainable"/>
     );
     /* <Buton aria-label="Add to Cart" onClick={handleAddToCart}>
                     <AddShoppingCart/>
@@ -42,7 +51,6 @@ const Product = ({product, onAddToCart}) => {
                             color="textSecondary" component="p"/>
             </CardContent>
             <CardActions disableSpacing className={classes.cardActions}>
-                {console.log(product.categories.some(item => item.slug === 'sustainable'))}
                 {product.categories.some(item => item.slug === 'sustainable') ? renderBanner() : null}
                 <IconButton aria-label="Add to Cart" onClick={handleAddToCart}>
                     <AddShoppingCart />

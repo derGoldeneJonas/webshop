@@ -8,11 +8,34 @@ import {Filter} from "@material-ui/icons";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {ThemeProvider} from "@material-ui/styles";
 
+// Import the MongoDB Realm Web SDK
+import * as Realm from "realm-web";
+
+// Connect to your MongoDB Realm app
+/*const REALM_APP_ID = "webapplication-yoqap"; // e.g. myapp-abcde
+const app = new Realm.App({ id: REALM_APP_ID });*/
+window.results = {
+    id: null,
+    startTime: new Date()
+};
+
 const App = () => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState({});
     const [order, setOrder] = useState({});
+    const [filterState, setfitlerState] = useState({
+            men : false,
+            women: false,
+            kids: false,
+            s: false,
+            m: false,
+            l: false,
+            xl: false,
+            sustainable: false
+    });
+
+
     const [errorMessage, setErrorMessage] = useState('');
 
 
@@ -118,7 +141,7 @@ const App = () => {
                 <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle}/>
                 <Switch>
                     <Route exact path="/webshop">
-                        <Filters filterProducts={filterProducts}/>
+                        <Filters filterProducts={filterProducts} keys={filterState}/>
                         <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty/>
                     </Route>
                     <Route exact path="/cart">

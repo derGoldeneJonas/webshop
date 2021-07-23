@@ -21,9 +21,9 @@ const PrimarySearchAppBar = ({totalItems}) => {
 
     const [open, setOpen] = React.useState(false);
 
-    /*useEffect(() => {
+    useEffect(() => {
         handleClickOpen();
-    }, [])*/
+    }, [])
 
     const handleClickOpen = () => {
         setOpen(true);

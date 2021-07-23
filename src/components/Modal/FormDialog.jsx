@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,38 +9,49 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function FormDialog({open, setOpen}) {
 
+    const [text, setText] = useState("");
+    const [error, setError] = useState(text.length <=  4 && text.length >= 1);
+    const [helperText, setHelperText] = useState(text.length <=  4 && text.length >= 1? 'ID is too short' : ' ');
+
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        if(text.length < 10) {
+            setError(true);
+            setHelperText("Please enter your correct ID");
+        }
+        else{
+            window.results.id = document.getElementById("id-input").value;
+            setOpen(false);
+        }
     };
 
     return (
         <div>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                <DialogTitle id="form-dialog-title">Welcome to the Webshop!</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We will send updates
-                        occasionally.
+              Before starting, please enter your prolific ID here and click on "Go!".
                     </DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
+                        id="id-input"
+                        label="ID"
+                        type="id"
+                        value={text}
+                        onChange={event => setText(event.target.value )}
+                        error={error}
+                        helperText={helperText}
                         fullWidth
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleClose} color="primary">
-                        Subscribe
+                        Go!
                     </Button>
                 </DialogActions>
             </Dialog>

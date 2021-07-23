@@ -16,7 +16,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 
 
-const Filters = ({filterProducts}) => {
+const Filters = ({filterProducts, keys}) => {
     const drawerWidth = 190;
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -28,6 +28,7 @@ const Filters = ({filterProducts}) => {
         drawer: {
             width: drawerWidth,
             flexShrink: 0,
+            zIndex: 5
         },
         drawerPaper: {
             width: drawerWidth,
@@ -43,21 +44,20 @@ const Filters = ({filterProducts}) => {
             padding: theme.spacing(3),
         },
     }));
-    const [value, setValue] = React.useState('female');
-    const [keys] = useState({
-            men : false,
-            women: false,
-            kids: false,
-            s: false,
-            m: false,
-            l: false,
-            xl: false,
-            sustainable: false
-    });
+
+    const [value, setValue] = React.useState(keys.men ? 'men': keys.women ? 'women': '');
     const classes = useStyles();
 
-    const handleChange = (event) => {
-        setValue(event.target.value);
+    const handleChange = (e) => {
+        setValue(e.target.value);
+        if(e.target.value === 'men') {
+            keys['men'] = e.currentTarget.checked;
+            keys['women'] = false;
+        } else {
+            keys['women'] = e.currentTarget.checked;
+            keys['men'] = false;
+        }
+        filterProducts(keys);
     };
     const handleFilterProducts = (e) => {
         keys[e.currentTarget.name] = e.currentTarget.checked;
@@ -77,24 +77,33 @@ const Filters = ({filterProducts}) => {
                     <FormControl component="fieldset" className={classes.formControl}>
                         <FormLabel component="legend">Gender</FormLabel>
                         <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                            <FormControlLabel value="female" control={<Radio />} label="Female" />
-                            <FormControlLabel value="male" control={<Radio />} label="Male" />
-                            <FormControlLabel value="other" control={<Radio />} label="Other" />
-                            <FormControlLabel value="disabled" disabled control={<Radio />} label="(Disabled option)" />
+                            <FormControlLabel value="women" control={<Radio />} label="Women" />
+                            <FormControlLabel value="men" control={<Radio />} label="Men" />
                         </RadioGroup>
-                        <FormLabel component="legend">SORT</FormLabel>
+                        <FormLabel component="legend">Size</FormLabel>
                         <FormGroup>
                             <FormControlLabel
-                                control={<Checkbox onChange={handleFilterProducts} name="women" />}
-                                label="Women"
+                                control={<Checkbox checked={keys.s} onChange={handleFilterProducts} name="s" />}
+                                label="S"
                             />
                             <FormControlLabel
-                                control={<Checkbox onChange={handleFilterProducts} name="men" />}
-                                label="Men"
+                                control={<Checkbox checked={keys.m} onChange={handleFilterProducts} name="m" />}
+                                label="M"
                             />
                             <FormControlLabel
-                                control={<Checkbox onChange={handleFilterProducts} name="kids" />}
-                                label="Kids"
+                                control={<Checkbox checked={keys.l} onChange={handleFilterProducts} name="l" />}
+                                label="L"
+                            />
+                            <FormControlLabel
+                                control={<Checkbox checked={keys.xl} onChange={handleFilterProducts} name="xl" />}
+                                label="XL"
+                            />
+                        </FormGroup>
+                        <FormLabel component="legend">Tags</FormLabel>
+                        <FormGroup>
+                            <FormControlLabel
+                                control={<Checkbox checked={keys.sustainable} onChange={handleFilterProducts} name="sustainable" />}
+                                label="Sustainable"
                             />
                         </FormGroup>
                     </FormControl>

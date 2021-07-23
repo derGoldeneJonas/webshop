@@ -21,4 +21,13 @@ export default makeStyles(() => ({
         height: 50,
         paddingBottom: 0,
     },
+    chip: {
+        marginRight: 'auto',
+        marginLeft: '7px'
+    },
+    iconImage: {
+        width: '1em',
+        marginBottom: '2px',
+        padding:'2px'
+    },
 }));
