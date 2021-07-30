@@ -3,6 +3,7 @@ import {Card, CardMedia, CardContent, CardActions, Typography, IconButton, Butto
 import {AddShoppingCart} from '@material-ui/icons';
 
 import useStyles from './styles';
+import './styles.css';
 import Chip from "@material-ui/core/Chip";
 //import EcoIcon from '@material-ui/icons/Eco';
 import EcoIcon from '../../../assets/icon.svg'

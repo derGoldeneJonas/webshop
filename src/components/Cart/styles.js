@@ -19,7 +19,8 @@ export default makeStyles((theme) => ({
     },
     checkoutButtonEmptyCart: {
         minWidth: '150px',
-        marginTop: '15px'
+        marginTop: '15px',
+        marginRight: '15px',
     },
     link: {
         textDecoration: 'none',

@@ -31,7 +31,7 @@ export default function FormDialog({open, setOpen}) {
     return (
         <div>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Welcome to the Webshop!</DialogTitle>
+                <DialogTitle id="form-dialog-title">Welcome to the Ernsting's family online shop!</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
               Before starting, please enter your prolific ID here and click on "Go!".
@@ -48,6 +48,9 @@ export default function FormDialog({open, setOpen}) {
                         helperText={helperText}
                         fullWidth
                     />
+                    <DialogContentText>
+                     After selecting the products you would like to "buy", click on the shopping cart in the upper right corner. You can then click on "Checkout" to complete the online shop visit.
+                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

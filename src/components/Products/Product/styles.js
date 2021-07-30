@@ -18,12 +18,12 @@ export default makeStyles(() => ({
     cardContent: {
         display: 'flex',
         justifyContent: 'space-between',
-        height: 50,
         paddingBottom: 0,
     },
     chip: {
         marginRight: 'auto',
-        marginLeft: '7px'
+        marginLeft: '7px',
+        fontSize: '0.9125rem'
     },
     iconImage: {
         width: '1em',
